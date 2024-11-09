@@ -5,26 +5,25 @@ export interface Figure {
 }
 
 export class Triangle implements Figure {
-  shape: 'triangle' = 'triangle';
-
   constructor(
     public color: 'red' | 'green' | 'blue',
     public a: number,
     public b: number,
     public c: number,
+    public shape: 'triangle',
   ) {
-    this.color = color;
+    this.shape = 'triangle';
 
     const ab = a + b;
     const bc = b + c;
     const ac = a + c;
 
     if (a <= 0 || b <= 0 || c <= 0) {
-      throw new Error('any length is <= 0');
+      throw new Error('Side lengths must be greater than zero');
     }
 
     if (a >= bc || b >= ac || c >= ab) {
-      throw new Error('it is not a triangle');
+      throw new Error('The provided sides do not form a valid triangle');
     }
   }
 
@@ -37,13 +36,12 @@ export class Triangle implements Figure {
 }
 
 export class Circle implements Figure {
-  shape: 'circle' = 'circle';
-
   constructor(
     public color: 'red' | 'green' | 'blue',
     public r: number,
+    public shape: 'circle',
   ) {
-    this.color = color;
+    this.shape = 'circle';
 
     if (r <= 0) {
       throw new Error('this is a dot');
@@ -58,24 +56,26 @@ export class Circle implements Figure {
 }
 
 export class Rectangle implements Figure {
-  shape: 'rectangle' = 'rectangle';
-
   constructor(
     public color: 'red' | 'green' | 'blue',
     public a: number,
     public b: number,
+    public shape: 'rectangle',
   ) {
+    this.shape = 'rectangle';
+
     if (a <= 0 || b <= 0) {
       throw new Error('any length is <= 0');
     }
-    this.color = color;
   }
 
   getArea(): number {
-    return this.a * this.b;
+    const area = this.a * this.b;
+
+    return Math.floor(area * 100) / 100;
   }
 }
 
-export function getInfo(figure): string {
+export function getInfo(figure: Figure): string {
   return `A ${figure.color} ${figure.shape} - ${figure.getArea()}`;
 }
